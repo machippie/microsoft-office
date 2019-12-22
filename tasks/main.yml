@@ -29,7 +29,7 @@
 
     - name: Remove quarantine flag
       loop: "{{ microsoft_office_apps }}"
-      register: microsoft-office_quarantine
+      register: microsoft_office_quarantine
       failed_when: microsoft_office_quarantine.rc != 0 and "No such xattr" not in microsoft_office_quarantine.stderr
       changed_when: microsoft_office_quarantine.rc == 0
       command: "xattr -d com.apple.quarantine /Applications/{{ item }}.app"
