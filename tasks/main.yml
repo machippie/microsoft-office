@@ -6,34 +6,27 @@
   tags:
     - microsoft-office
 
-- name: Install psutil package
-  pip:
-    name: psutil
+- name: Install required package
+  ignore_errors: True
+  loop: "{{ microsoft_office_packages }}"
+  homebrew_cask:
+    name: "{{ item }}"
+    greedy: True
+    options: appdir=/Applications
+    accept_external_apps: False
+    state: upgraded
+  become: "{{ (microsoft_office_user != ansible_user_id) | bool }}"
+  become_user: "{{ microsoft_office_user }}"
   tags:
     - microsoft-office
 
-- become: "{{ (microsoft_office_user != ansible_user_id) | bool }}"
-  become_user: "{{ microsoft_office_user }}"
-  block:
-    - name: Install required package
-      ignore_errors: True
-      loop: "{{ microsoft_office_packages }}"
-      homebrew_cask:
-        name: "{{ item }}"
-        greedy: True
-        options: appdir=/Applications
-        accept_external_apps: False
-        state: upgraded
-      tags:
-        - microsoft-office
-
-    - name: Remove quarantine flag
-      loop: "{{ microsoft_office_apps }}"
-      register: microsoft_office_quarantine
-      failed_when: microsoft_office_quarantine.rc != 0 and "No such xattr" not in microsoft_office_quarantine.stderr
-      changed_when: microsoft_office_quarantine.rc == 0
-      command: "xattr -d com.apple.quarantine /Applications/{{ item }}.app"
-      tags:
-        - microsoft-office
+- name: Remove quarantine flag
+  loop: "{{ microsoft_office_apps }}"
+  register: microsoft_office_quarantine
+  failed_when: microsoft_office_quarantine.rc != 0 and "No such xattr" not in microsoft_office_quarantine.stderr
+  changed_when: microsoft_office_quarantine.rc == 0
+  command: "xattr -d com.apple.quarantine /Applications/{{ item }}.app"
+  tags:
+    - microsoft-office
 
 ...
