@@ -6,13 +6,13 @@
 
 # @var microsoft_office_packages:description: List of packages to install
 microsoft_office_packages:
-  - microsoft-excel
-  - microsoft-powerpoint
-  - microsoft-word
+  - homebrew/cask-versions/microsoft-office-2016
 
 # @var microsoft_office_apps:description: List of applications to use
 microsoft_office_apps:
   - Microsoft\ Excel
+  - Microsoft\ OneNote
+  - Microsoft\ Outlook
   - Microsoft\ PowerPoint
   - Microsoft\ Word
 
