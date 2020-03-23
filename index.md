@@ -10,6 +10,8 @@ List of applications to use
 ```yaml
 microsoft_office_apps:
   - Microsoft\ Excel
+  - Microsoft\ OneNote
+  - Microsoft\ Outlook
   - Microsoft\ PowerPoint
   - Microsoft\ Word
 ```
@@ -22,9 +24,7 @@ List of packages to install
 
 ```yaml
 microsoft_office_packages:
-  - microsoft-excel
-  - microsoft-powerpoint
-  - microsoft-word
+  - homebrew/cask-versions/microsoft-office-2016
 ```
 
 ### microsoft_office_user
