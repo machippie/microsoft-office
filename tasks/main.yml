@@ -6,19 +6,20 @@
   tags:
     - microsoft-office
 
-- name: Install required package
-  ignore_errors: True
-  loop: "{{ microsoft_office_packages }}"
-  homebrew_cask:
-    name: "{{ item }}"
-    greedy: True
-    options: appdir=/Applications
-    accept_external_apps: False
-    state: upgraded
-  become: "{{ (microsoft_office_user != ansible_user_id) | bool }}"
+- become: "{{ (microsoft_office_user != ansible_user_id) | bool }}"
   become_user: "{{ microsoft_office_user }}"
-  tags:
-    - microsoft-office
+  block:
+    - name: Install required package
+      ignore_errors: True
+      loop: "{{ microsoft_office_packages }}"
+      homebrew_cask:
+        name: "{{ item }}"
+        greedy: True
+        options: appdir=/Applications
+        accept_external_apps: False
+        state: upgraded
+      tags:
+        - microsoft-office
 
 - name: Remove quarantine flag
   loop: "{{ microsoft_office_apps }}"
